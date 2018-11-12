@@ -1,16 +1,8 @@
 import binascii
 import time
 from bluepy.btle import Scanner, DefaultDelegate,Peripheral,UUID
+from scanDelegate import ScanDelegate
 
-class ScanDelegate(DefaultDelegate):
-    def __init__(self):
-        DefaultDelegate.__init__(self)
-
-    def handleDiscovery(self, dev, isNewDev, isNewData):
-        if isNewDev:
-            print ("Discovered device "+dev.addr+" with RSSI="+str(dev.rssi))
-        elif isNewData:
-            print ("Received new data from", dev.addr)
 
 def scan():
     scanner = Scanner().withDelegate(ScanDelegate())
@@ -25,13 +17,15 @@ def scan_services(mac_address):
     for service in services:
         print (service)
 
-def get_characteristics(mac_address):
+def get_characteristics(mac_address,service_uuid):
     p = Peripheral(mac_address)
     chList = p.getCharacteristics()
+    chList = p.getCharacteristics(uuid=service_uuid)
     print ("Handle      UUID        Properties")
     print ("----------------------------------")
     for ch in chList:
         print("0x"+format(ch.getHandle(),'02x')+"   "+str(ch.uuid)+"    "+ch.propertiesToString())
+
 def get_data_from_service(mac_address,service_uuid, characteristics):
     p = Peripheral(mac_address)
     service_status = p.getServiceByUUID(service_uuid)
@@ -54,23 +48,20 @@ def menu():
         if opt == '1':
             scan()
         elif opt == '2':
-            print ("Digite o MAC do dispositivo BT LE\r\n")
-            mac_address=input()
+            mac_address=input("Digite o MAC do dispositivo BT LE\r\n")
             if(mac_address):
                 scan_services(mac_address)
             else:
                 print ("Digite o MAC corretamente")
         elif opt == '3':
-            print ("Digite o MAC e o serviço a ser buscado")
-            mac_address=input()
-            print ("Digite o serviço BTLE a ser consultado")
-            service = input()
+            mac_address=input("Digite o MAC e o serviço a ser buscado")
+            service = input("Digite o serviço BTLE a ser consultado")
             if (mac_address and service):
                 get_data_from_service(mac_address,service)
         elif opt=='4':
-            print ("Digite o MAC a ser buscado")
             mac_address=input("Digite o MAC a ser buscado\r\n")
-            get_characteristics(mac_address)
+            service = input("Digite o serviço BTLE a ser consultado")
+            get_characteristics(mac_address,service)
         else:
             i=0
 
