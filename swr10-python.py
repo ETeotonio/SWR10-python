@@ -21,8 +21,9 @@ def menu():
         elif opt == '3':
             mac_address=input("Digite o MAC e o serviço a ser buscado")
             service = input("Digite o serviço BTLE a ser consultado")
+            characteristics=input("Digite a caracteristica")
             if (mac_address and service):
-                accessMethod.get_data_from_service(mac_address,service)
+                accessMethod.get_data_from_service(mac_address,service,characteristics)
         elif opt=='4':
             mac_address=input("Digite o MAC a ser buscado\r\n")
             service = input("Digite o serviço BTLE a ser consultado")

@@ -32,6 +32,6 @@ class accessMethods():
         ch = service_status.getCharacteristics(characteristics)[0]
         if ch.supportsRead():
             val = binascii.b2a_hex(ch.read())
-            print(int("0x" + val, 0))
+            val1 = val.decode('utf-8')
+            print (str(ch),binascii.unhexlify(val1))
             time.sleep(1)
-        print(str(ch))
