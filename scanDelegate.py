@@ -1,6 +1,5 @@
 from bluepy.btle import DefaultDelegate
 
-
 class ScanDelegate(DefaultDelegate):
     def __init__(self):
         DefaultDelegate.__init__(self)

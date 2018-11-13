@@ -28,6 +28,12 @@ def menu():
             mac_address=input("Digite o MAC a ser buscado\r\n")
             service = input("Digite o serviço BTLE a ser consultado")
             accessMethod.get_characteristics(mac_address,service)
+        elif opt=='5':
+            mac_address=input("Digite o mac para enviar o comando")
+            service=input("Digite o serviço BTLE")
+            characteristics=input("Digite a caracteristica")
+            command=input("Digite o comando")
+            accessMethod.send_command(mac_address,service,characteristics,command)
         else:
             i=0
 
