@@ -35,3 +35,11 @@ class accessMethods():
             val1 = val.decode('utf-8')
             print (str(ch),binascii.unhexlify(val1))
             time.sleep(1)
+    def savetofile(self,data):
+        filename = input("Digite o nome do arquivo para salvar")
+        if filename:
+            f = open(filename,'w')
+            f.write(data)
+            f.close()
+        else:
+            print ("arquivo nao salvo")
